@@ -1,8 +1,6 @@
 import cv2
 import numpy as np
-from sklearn.preprocessing import OneHotEncoder
 from tensorflow.keras.models import load_model
-import matplotlib.pyplot as plt
 
 face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
 model = load_model('model.h5')
@@ -81,5 +79,5 @@ def predict_samples():
     cv2.destroyAllWindows()
 
 if __name__ == '__main__':
-    # main()
-    predict_samples()
+    main()
+    # predict_samples()
