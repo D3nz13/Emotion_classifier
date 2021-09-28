@@ -21,7 +21,7 @@ The program captures the video from a camera and then processes each frame.
 
 ## Used libraries
 ```tensorflow==2.5.0```  
-```numpy==1.19.5```
+```numpy==1.19.5```  
 ```opencv-python==4.5.3.56```
 
 ## Neural network architecture
