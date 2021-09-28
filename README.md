@@ -17,7 +17,7 @@ The program captures the video from a camera and then processes each frame.
 4) on every cropped image of a face, the neural network predicts the most probable emotion  
 4.1) before the model gets the image, the cropped image needs to be converted to grayscale and resized to 48x48 pixels  
 5) having predicted the emotion, the program puts a label representing the emotion above the face  
-6) program can be stopped by clicking the ESC button
+6) the program can be stopped by clicking the ESC button
 
 ## Used libraries
 ```tensorflow==2.5.0```  
