@@ -40,7 +40,7 @@ def detect_faces(image):
     """
     image_copy = image.copy()
     gray = cv2.cvtColor(image_copy, cv2.COLOR_BGR2GRAY)
-    faces = face_cascade.detectMultiScale(gray, 1.1, 4)
+    faces = face_cascade.detectMultiScale(gray, 1.1, 5, minSize=(30, 30))
 
     return faces
 
@@ -56,6 +56,26 @@ def contour_faces(image, faces):
     
     return image_copy
 
+
+def test_cropping():
+    """
+    This is a test function to crop the face. It'll be removed later
+    """
+    cam_test = cv2.VideoCapture(0)
+    while True:
+        _, img = cam_test.read()
+        img = cv2.resize(img, (640, 360), interpolation=cv2.INTER_AREA)
+        faces = detect_faces(img)
+        for (x, y, w, h) in faces:
+            cv2.rectangle(img, (x, y), (x+w, y+h), (0, 255, 0), 2)
+            face = img[y:y+h, x:x+w]
+            face = cv2.resize(face, (48, 48))
+            cv2.imshow('face', face)
+        cv2.imshow('img', img)
+        if cv2.waitKey(1) == 27:  # ESC
+            break
+
 if __name__ == '__main__':
-    display_camera()
+    # display_camera()
     # get_one_frame()
+    test_cropping()
