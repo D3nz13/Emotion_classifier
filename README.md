@@ -4,7 +4,7 @@
 * [Used libraries](#used-libraries)
 * [Neural network architecture](#neural-network-architecture)
 * [Graphs](#graphs-and-images)
-* [Example usage](#example-usage)
+* [Example of use](#example-of-use)
 
 ## Description
 This project has been made to learn the basics of the OpenCV library.  
@@ -33,7 +33,7 @@ The program captures the video from a camera and then processes each frame.
 - Sample predictions from the validation dataset  
 ![val_preds](/graphs/model_sample_predictions.png)  
 
-## Example usage
+## Example of use
 - the sample pictures have been downloaded from ```google pictures```  
 ![](/graphs/sample_pic_1_pred.png)  
 ![](/graphs/sample_pic_2_pred.png)  
