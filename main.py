@@ -60,12 +60,26 @@ def main():
             contour_face(img, x, y, w, h)
             face = crop_face(img, x, y, w, h)
             emotion = predict_emotion(face)
-            cv2.putText(img, emotion, (int((x+h)/2), y-10), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2)
+            cv2.putText(img, emotion, (int((x+h)/2), y-10), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 0, 0), 2)
         cv2.imshow('img', img)
         if cv2.waitKey(1) == 27:  # ESC
             break
     cv2.destroyAllWindows()
 
 
+def predict_samples():
+    for i in range(3):
+        img = cv2.imread(f'sample_pictures/0{i+1}.png')
+        faces = detect_faces(img)
+        for (x, y, w, h) in faces:
+            contour_face(img, x, y, w, h)
+            face = crop_face(img, x, y, w, h)
+            emotion = predict_emotion(face)
+            cv2.putText(img, emotion, (int((x+h)/2), y-10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0), 2)
+        cv2.imshow(f'img{i+1}', img)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+
 if __name__ == '__main__':
-    main()
+    # main()
+    predict_samples()
