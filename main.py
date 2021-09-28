@@ -66,6 +66,9 @@ def main():
 
 
 def predict_samples():
+    """
+    This function predicts emotions for sample pictures. Used to show the example of use.
+    """
     for i in range(3):
         img = cv2.imread(f'sample_pictures/0{i+1}.png')
         faces = detect_faces(img)
