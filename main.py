@@ -1,37 +1,12 @@
 import cv2
+import numpy as np
+from sklearn.preprocessing import OneHotEncoder
+from tensorflow.keras.models import load_model
 import matplotlib.pyplot as plt
 
 face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
-
-def display_camera():
-    """
-    This function captures the image from the camera and displays it. ESC button stops the loop
-    """
-    cam = cv2.VideoCapture(0)
-
-    while True:
-        _, image = cam.read()
-        faces = detect_faces(image)
-        image_cont = contour_faces(image, faces)
-        cv2.imshow('my cam', image_cont)
-        if cv2.waitKey(1) == 27:  # ESC
-            break
-
-    cv2.destroyAllWindows()
-
-
-def get_one_frame():
-    """
-    This function captures one frame
-    """
-    cam = cv2.VideoCapture(0)
-    _, image = cam.read()
-    faces = detect_faces(image)
-    image_cont = contour_faces(image, faces)
-    plt.imshow(image_cont)
-    plt.show()
-
-    cv2.destroyAllWindows()
+model = load_model('model.h5')
+categories = ['happiness', 'neutral', 'sadness']
 
 
 def detect_faces(image):
@@ -40,42 +15,57 @@ def detect_faces(image):
     """
     image_copy = image.copy()
     gray = cv2.cvtColor(image_copy, cv2.COLOR_BGR2GRAY)
-    faces = face_cascade.detectMultiScale(gray, 1.1, 5, minSize=(30, 30))
+    faces = face_cascade.detectMultiScale(gray, 1.1, 5, minSize=(50, 50))
 
     return faces
 
 
-def contour_faces(image, faces):
+def contour_face(image, x, y, w, h):
     """
-    This function draws rectangles around the faces
+    This function draws a rectangle around the face
     """
-    image_copy = image.copy()
-
-    for (x, y, w, h) in faces:
-        cv2.rectangle(image_copy, (x, y), (x+w, y+h), (0, 255, 0), 2)
-    
-    return image_copy
+    cv2.rectangle(image, (x, y), (x+w, y+h), (0, 255, 0), 2)
 
 
-def test_cropping():
+def crop_face(image, x, y, w, h):
     """
-    This is a test function to crop the face. It'll be removed later
+    This function crops the face from the image
+    """
+    return image[y:y+h, x:x+w]
+
+
+def predict_emotion(face):
+    """
+    This function transforms the image and uses the model to predict the emotions
+    """
+    gray = cv2.cvtColor(face, cv2.COLOR_BGR2GRAY)
+    resized_face = cv2.resize(gray, (48, 48))
+    resized_face = resized_face.reshape(-1, 48, 48, 1)
+    prediction = model.predict(resized_face)
+    pred_class = np.argmax(prediction, axis=1)
+    emotion = categories[pred_class[0]]
+
+    return emotion
+
+
+def main():
+    """
+    This is a main function that displays the image and triggers other functions
     """
     cam_test = cv2.VideoCapture(0)
     while True:
         _, img = cam_test.read()
-        img = cv2.resize(img, (640, 360), interpolation=cv2.INTER_AREA)
         faces = detect_faces(img)
         for (x, y, w, h) in faces:
-            cv2.rectangle(img, (x, y), (x+w, y+h), (0, 255, 0), 2)
-            face = img[y:y+h, x:x+w]
-            face = cv2.resize(face, (48, 48))
-            cv2.imshow('face', face)
+            contour_face(img, x, y, w, h)
+            face = crop_face(img, x, y, w, h)
+            emotion = predict_emotion(face)
+            cv2.putText(img, emotion, (int((x+h)/2), y-10), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2)
         cv2.imshow('img', img)
         if cv2.waitKey(1) == 27:  # ESC
             break
+    cv2.destroyAllWindows()
+
 
 if __name__ == '__main__':
-    # display_camera()
-    # get_one_frame()
-    test_cropping()
+    main()
