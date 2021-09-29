@@ -5,6 +5,7 @@
 * [Neural network architecture](#neural-network-architecture)
 * [Graphs](#graphs-and-images)
 * [Example of use](#example-of-use)
+* [Possible improvements](#possible-improvements)
 
 ## Description
 This project has been made to learn the basics of the OpenCV library.  
@@ -37,4 +38,10 @@ The program captures the video from a camera and then processes each frame.
 - the sample pictures have been downloaded from ```google pictures```  
 ![](/graphs/sample_pic_1_pred.png)  
 ![](/graphs/sample_pic_2_pred.png)  
-![](/graphs/sample_pic_3_pred.png)
+![](/graphs/sample_pic_3_pred.png)  
+![](/graphs/sample_pic_4_pred.png)  
+
+## Possible improvements
+- include all 7 emotions from the dataset, not only 3  
+- improve the neural network, right now it sometimes struggles to recognize sadness  
+- tune the haarcascade classifier parameters, sometimes it considers something a face while it's not a face
