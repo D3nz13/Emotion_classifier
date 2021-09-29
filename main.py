@@ -13,7 +13,7 @@ def detect_faces(image):
     """
     image_copy = image.copy()
     gray = cv2.cvtColor(image_copy, cv2.COLOR_BGR2GRAY)
-    faces = face_cascade.detectMultiScale(gray, 1.1, 5, minSize=(50, 50))
+    faces = face_cascade.detectMultiScale(gray, 1.2, 6, minSize=(50, 50))
 
     return faces
 
@@ -58,7 +58,7 @@ def main():
             contour_face(img, x, y, w, h)
             face = crop_face(img, x, y, w, h)
             emotion = predict_emotion(face)
-            cv2.putText(img, emotion, (int((x+h)/2), y-10), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 0, 0), 2)
+            cv2.putText(img, emotion, (int((x+w/2 - 30), y-15), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 0, 0), 2))
         cv2.imshow('img', img)
         if cv2.waitKey(1) == 27:  # ESC
             break
@@ -69,18 +69,18 @@ def predict_samples():
     """
     This function predicts emotions for sample pictures. Used to show the example of use.
     """
-    for i in range(3):
+    for i in range(4):
         img = cv2.imread(f'sample_pictures/0{i+1}.png')
         faces = detect_faces(img)
         for (x, y, w, h) in faces:
             contour_face(img, x, y, w, h)
             face = crop_face(img, x, y, w, h)
             emotion = predict_emotion(face)
-            cv2.putText(img, emotion, (int((x+h)/2), y-10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0), 2)
+            cv2.putText(img, emotion, (int(x+w/2 - 30), y-15), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0), 2)
         cv2.imshow(f'img{i+1}', img)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 
 if __name__ == '__main__':
-    main()
-    # predict_samples()
+    # main()
+    predict_samples()
